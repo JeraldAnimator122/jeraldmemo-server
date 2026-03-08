@@ -1,13 +1,10 @@
 Jeraldmemo Flipnote server made for the Nintendo DSi console
 ======
 
-This is a replacement for the Flipnote Hatena service for the DSi which has ended.
+This is a replacement for the Flipnote Hatena service for the DSi which has ended on May 31, 2013.
 It's written in Python 2.7 and requires Twisted.
 Future versions could need PIL aswell.
-This project uses Hatenatools, which is also written by me. It can be found here: http://pbsds.net/projects/hatenatools
+written by pbsds
+planning to rewrite the pbsds Python 2.7 to Python 3 (latest)
+also added NAS (nintendo authenticating system) and Conntest (connection test) since Nintendo shut these down.
 
-To use it, simply run server.py.
-On the DSi, set the proxy settings to point to this server on port 8080, then access Flipnote Studio as usual. A more detailed guide is on the wiki section.
-
-
-Documentation on the formats Flipnote Studio uses can be found in the wiki section of this git.
