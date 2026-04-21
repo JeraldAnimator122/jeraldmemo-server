@@ -92,9 +92,9 @@ class UGO:
 		if Sections >= 2:
 			self.ExtraLength = AscDec(data[12:16], True)
 		if Sections > 2:
-			print "Warning: This UGO file has more than the 2 known sections:",Sections
-			print "Please send this UGO file to pbsds over at pbsds.net"
-			print "This file could possibly be read incorrectly..."
+			print ("Warning: This UGO file has more than the 2 known sections:")Sections
+			print ("Please send this UGO file to pbsds over at pbsds.net")
+			print ("This file could possibly be read incorrectly...")
 		headerlength = 8 + Sections*4
 		
 		#Read table of contents:
@@ -391,12 +391,12 @@ class UGO:
 		for elem in ugo_xml:
 			if elem.tag == "raw":
 				if "type" not in elem.attrib:
-					if not silent: print "Invalid formatting. <raw> without \"type\" attribute"
+					if not silent: print ("Invalid formatting. <raw> without \"type\" attribute")
 					return False
 				values = [elem.attrib["type"]]
 				for value in elem:
 					if value.tag <> "value":
-						if not silent: print "Invalid formatting. <%s> found within <unknown>" % value.tag
+						if not silent: print ("Invalid formatting. <%s> found within <unknown>") % value.tag
 						return False
 					values.append(value.text if value.text else "")
 				
@@ -405,10 +405,10 @@ class UGO:
 				values = []
 				for value in elem:
 					if value.tag <> "value":
-						if not silent: print "Invalid formatting. <%s> found within <layout>" % value.tag
+						if not silent: print ("Invalid formatting. <%s> found within <layout>") % value.tag
 						return False
 					if not value.text.isdigit():
-						if not silent: print "Invalid entry. <value> in <layout> is not a number" % value.tag
+						if not silent: print ("Invalid entry. <value> in <layout> is not a number") % value.tag
 						return False
 					values.append(int(value.text))
 				Items.append(("layout", values))
@@ -420,20 +420,20 @@ class UGO:
 				
 				for value in elem:
 					if value.tag not in ("label", "num"):
-						if not silent: print "Invalid formatting. <%s> found within <title>" % value.tag
+						if not silent: print ("Invalid formatting. <%s> found within <title>") % value.tag
 						return False
 					if value.tag == "label":
 						if pos >= 5:
-							if not silent: print "Invalid formatting. More than 5 <labels> in <title>"
+							if not silent: print ("Invalid formatting. More than 5 <labels> in <title>")
 							return False
 						if value.text: labels[pos] = value.text
 						pos += 1
 					elif value.tag == "num":
 						if numset:
-							if not silent: print "Invalid formatting. Multible <num> in <title>"
+							if not silent: print ("Invalid formatting. Multible <num> in <title>")
 							return False
 						if not value.text.isdigit():
-							if not silent: print "Invalid entry. <num> in <title> is not a number!"
+							if not silent: print ("Invalid entry. <num> in <title> is not a number!")
 							return False
 						num = int(value.text)
 						numset = True
@@ -446,22 +446,22 @@ class UGO:
 				
 				for value in elem:
 					if value.tag not in ("label", "address", "selected"):
-						if not silent: print "Invalid formatting. <%s> found within <category>" % value.tag
+						if not silent: print ("Invalid formatting. <%s> found within <category>") % value.tag
 						return False
 					
 					if value.tag == "address":
 						if isinstance(link, str):
-							if not silent: print "Invalid formatting. multible <address> within <category>"
+							if not silent: print ("Invalid formatting. multible <address> within <category>")
 							return False
 						link = value.text if value.text else ""
 					elif value.tag == "label":
 						if isinstance(label, str):
-							if not silent: print "Invalid formatting. multible <label> within <category>"
+							if not silent: print ("Invalid formatting. multible <label> within <category>")
 							return False
 						label = value.text if value.text else ""
 					elif value.tag == "selected":
 						if selected in (True, False):
-							if not silent: print "Invalid formatting. multible <selected> within <category>"
+							if not silent: print ("Invalid formatting. multible <selected> within <category>")
 							return False
 						selected = value.text[0].lower() in "t1"
 				
@@ -473,17 +473,17 @@ class UGO:
 				for value in elem:
 					if value.tag == "label":
 						if isinstance(label, str):
-							if not silent: print "Invalid formatting. Multible <label> within <post>"
+							if not silent: print ("Invalid formatting. Multible <label> within <post>")
 							return False
 						label = value.text if value.text else ""
 					elif value.tag == "address":
 						if isinstance(link, str):
-							if not silent: print "Invalid formatting. Multible <address> within <post>"
+							if not silent: print ("Invalid formatting. Multible <address> within <post>")
 							return False
 						link = value.text if value.text else ""
 				
 				if None in (link, label):
-					if not silent: print "Invalid formatting. <button> lacks either a <address> or <label>"
+					if not silent: print ("Invalid formatting. <button> lacks either a <address> or <label>")
 					return False
 				
 				Items.append(("post", link, label))
@@ -496,37 +496,37 @@ class UGO:
 				
 				for value in elem:
 					if value.tag not in ("label", "address", "trait", "value", "embedded_file"):
-						if not silent: print "Invalid formatting. <%s> found within <button>" % value.tag
+						if not silent: print ("Invalid formatting. <%s> found within <button>") % value.tag
 						return False
 					
 					if value.tag == "label":
 						if isinstance(label, str):
-							if not silent: print "Invalid formatting. Multible <label> within <button>"
+							if not silent: print ("Invalid formatting. Multible <label> within <button>")
 							return False
 						label = value.text if value.text else ""
 					elif value.tag == "address":
 						if isinstance(link, str):
-							if not silent: print "Invalid formatting. Multible <address> within <button>"
+							if not silent: print ("Invalid formatting. Multible <address> within <button>")
 							return False
 						link = value.text if value.text else ""
 					elif value.tag == "trait":#todo: add names
 						if isinstance(trait, str):
-							if not silent: print "Invalid formatting. Multible <trait> within <button>"
+							if not silent: print ("Invalid formatting. Multible <trait> within <button>")
 							return False
 						if not value.text.isdigit():
-							if not silent: print "Invalid entry. <trait> in <button> is not a number"
+							if not silent: print ("Invalid entry. <trait> in <button> is not a number")
 							return False
 						trait = int(value.text)
 					elif value.tag == "value":
 						other.append(value.text if value.text else "")
 					elif value.tag == "embedded_file":
 						if file <> None:
-							if not silent: print "Invalid formatting. Multible <embedded_file> within <button>"
+							if not silent: print ("Invalid formatting. Multible <embedded_file> within <button>")
 							return False
 						
 						path = os.path.join(xmlpath, value.text)
 						if not os.path.isfile(path):
-							if not silent: print "Invalid entry. Embedded file \"%s\" not found!" % value.text
+							if not silent: print ("Invalid entry. Embedded file \"%s\" not found!") % value.text
 							print path
 							return False
 						
@@ -536,13 +536,13 @@ class UGO:
 						f.close()
 				
 				if None in (trait, label, link):
-					if not silent: print "Invalid formatting. <button> lacks either a <trait>, a <address> or a <label>"
+					if not silent: print ("Invalid formatting. <button> lacks either a <trait>, a <address> or a <label>")
 					return False
 				
 				Items.append(("button", trait, label, link, other, file))
 			else:
 				if not silent:
-					print "Invalid formatting: <%s> found within <ugo_xml>" % elem.tag
+					print ("Invalid formatting: <%s> found within <ugo_xml>") % elem.tag
 			
 		self.Items = Items
 		self.Loaded = True
@@ -555,18 +555,18 @@ if __name__ == "__main__":
 	print
 	
 	if len(sys.argv) < 2:
-		print "Usage:"
-		print "      UGO.py [<mode>] <input> [<output> [<foldername>]]"
-		print ""
-		print "      <Mode>:"
-		print "          -d: Converts the UGO file in <input> to a UGOXML file with the same"
-		print "              name, unless <output> is specified. Any embedded files will be"
-		print "              written to a folder called UGOXML-filename + \" embedded\" unless"
-		print "              <foldername> is given."
-		print "              <foldername> is relative to the XML."
-		print "          -e: Converts the UGOXML file in <input> to a UGO file with the same"
-		print "              name, unless <output> is specified."
-		print "          If mode is not specified, it will try to find out for itself"
+		print ("Usage:")
+		print ("      UGO.py [<mode>] <input> [<output> [<foldername>]]")
+		print ("")
+		print ("      <Mode>:")
+		print ("          -d: Converts the UGO file in <input> to a UGOXML file with the same")
+		print ("              name, unless <output> is specified. Any embedded files will be")
+		print ("              written to a folder called UGOXML-filename + \" embedded\" unless")
+		print ("              <foldername> is given.")
+		print ("              <foldername> is relative to the XML.")
+		print ("          -e: Converts the UGOXML file in <input> to a UGO file with the same")
+		print ("              name, unless <output> is specified.")
+		print ("          If mode is not specified, it will try to find out for itself")
 		sys.exit()
 	
 	mode = sys.argv[1]
@@ -578,14 +578,14 @@ if __name__ == "__main__":
 			
 			if magic == "UGAR":
 				mode = "-d"
-				print "No mode specified. UGO -> UGOXML chosen"
+				print ("No mode specified. UGO -> UGOXML chosen")
 			else:
 				mode = "-e"
-				print "No mode specified. UGOXML -> UGO chosen"
+				print ("No mode specified. UGOXML -> UGO chosen")
 			
 			sys.argv.insert(1, mode)
 		else:
-			print "Invalid <mode> given!"
+			print ("Invalid <mode> given!")
 			sys.exit()
 	
 	if mode == "-d":
@@ -593,33 +593,33 @@ if __name__ == "__main__":
 		output = sys.argv[3] if len(sys.argv) >= 4 else sys.argv[2]+"xml"
 		foldername = sys.argv[4] if len(sys.argv) >= 5 else os.path.split(output)[1] + " embedded"
 		
-		print "Reading %s..." % os.path.split(input)[1]
+		print ("Reading %s...") % os.path.split(input)[1]
 		ugo = UGO().ReadFile(input)
 		if not ugo:
-			print "Error!\n The given file is not a UGO file!"
+			print ("Error!\n The given file is not a UGO file!")
 			sys.exit()
-		print "Done!"
+		print ("Done!")
 		
-		print "Writing XML..."
+		print ("Writing XML...")
 		ugo.WriteXML(output, foldername)
 		
-		print "Done!\n\nHave a nice day!"
+		print ("Done!\n\nHave a nice day!")
 	if mode == "-e":
 		input = sys.argv[2]
 		output = sys.argv[3] if len(sys.argv) >= 4 else ".".join(sys.argv[2].split(".")[:-1]) + ".ugo"
 		
-		print "Reading %s..." % os.path.split(input)[1]
+		print ("Reading %s...") % os.path.split(input)[1]
 		try:
 			ugo = UGO().ReadXML(input, False)
 		except EL.ParseError:
-			print "Error!\nThe given file is not in the XML format!"
+			print ("Error!\nThe given file is not in the XML format!")
 			ugo = False
 		if not ugo:
 			#it prints sufficient errormessages
 			#print "Error!\n The given file is not a UGO file!"
 			sys.exit()
-		print "Done!"
+		print ("Done!")
 		
-		print "Writing UGO..."
+		print ("Writing UGO...")
 		ugo.WriteFile(output)
-		print "Done"
+		print ("Done")
