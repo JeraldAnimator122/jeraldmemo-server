@@ -13,7 +13,7 @@
 		<num>0</num>
 	</title>
 	<button>
-		<label>Info</label>
+		<label>Welcome to Jeraldmemo!</label>
 		<address>http://flipnote.hatena.com/ds/v2-xx/help/info.htm</address>
 		<trait>3</trait>
 	</button>
